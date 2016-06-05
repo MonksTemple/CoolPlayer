@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<TextView
+        android:id="@+id/titleView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5pt"
+        android:layout_marginLeft="16sp"
+    android:textSize="3mm"
+        android:text="@string/musicName"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/infoView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/titleView"
+        android:layout_marginLeft="16sp"
+        android:layout_marginBottom="5pt"
+        android:text="@string/musicInfo"
+        android:textColor="@color/deepdarkGrey" />
+    
+
+        
+</RelativeLayout>

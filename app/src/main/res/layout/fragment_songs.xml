@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mainBackground"
+    android:orientation="vertical"
+    >
+
+        <yearsj.com.coolplayer.ui.view.SearchInfoTextView
+            android:id="@+id/filter_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10pt"
+            android:layout_marginLeft="5pt"
+            android:layout_marginRight="5pt"
+            android:layout_marginBottom="10pt"
+            android:background="@drawable/edit_input"
+            android:drawableLeft="@drawable/search"
+            android:hint="@string/search_hint"
+            android:padding="5dp"
+            android:cursorVisible="true"
+            android:textSize="15.0dip" />
+
+
+
+    <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+           android:orientation="horizontal">
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:fadingEdge = "none"
+
+            >
+            <view
+                android:layout_width="match_parent"
+                android:layout_height="1sp"
+                android:background="@color/tableLine"
+                />
+
+        <ListView
+            android:id="@+id/songListView"
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:dividerHeight="1sp"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content" >
+        </ListView>
+           </ScrollView>
+        <TextView
+            android:id="@+id/dialog"
+            android:layout_width="80.0dip"
+            android:layout_height="80.0dip"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/darkGrey"
+            android:textSize="50dip"
+            android:visibility="invisible" />
+
+
+        <yearsj.com.coolplayer.ui.view.CharacterSideBarView
+            android:id="@+id/sidrbar"
+            android:layout_width="30.0dip"
+            android:layout_height="fill_parent"
+            android:layout_gravity="right|center" />
+
+    </FrameLayout>
+
+</LinearLayout>
