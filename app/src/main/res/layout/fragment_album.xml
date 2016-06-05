@@ -20,8 +20,8 @@
     <ListView
         android:id="@+id/albumListView"
         android:background="@color/white"
-        android:dividerHeight="1sp"
         android:layout_width="match_parent"
+        android:divider="@color/white"
         android:layout_height="wrap_content" >
     </ListView>
 

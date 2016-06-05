@@ -61,20 +61,17 @@
 
     <ImageView
         android:id="@+id/playList"
-        android:layout_height="30dp"
-        android:layout_width="30dp"
+        style="@style/picButtonStyle"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="15dp"
         android:src="@drawable/lines" />
 
         <ImageView
             android:id="@+id/playMusic"
-            android:layout_height="40dp"
-            android:layout_width="40dp"
+            style="@style/picButtonStyle"
+            android:layout_height="20pt"
+            android:layout_width="20pt"
             android:layout_alignRight="@id/playList"
             android:layout_marginRight="20pt"
-            android:layout_centerVertical="true"
             android:src="@drawable/play_music" />
     </RelativeLayout>
 </LinearLayout>

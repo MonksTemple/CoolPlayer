@@ -90,7 +90,7 @@ public class SingerListFragment extends Fragment {
     void loadData() {
         ArrayList<HashMap<String, Object>> mylist = new ArrayList<HashMap<String, Object>>();
         HashMap<String, Object> map;
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 10; i++) {
             map = new HashMap<String, Object>();
             map.put(POSTER, this.getResources().getDrawable(R.drawable.poster));
             map.put(TITLE, "陈奕迅");

@@ -38,14 +38,14 @@ public class SongsListFragment extends Fragment {
     private View view;
     LayoutInflater inflater;
 
-    private SortAdapter adapter;
-    private CharacterSideBarView sideBar;
-    private TextView dialog;
+ //   private SortAdapter adapter;
+//    private CharacterSideBarView sideBar;
+//    private TextView dialog;
 
-    private PinyinComparator pinyinComparator;
-    private CharacterParser characterParser;
-    private List<SortModel> SourceDateList;
-    private int listViewHeight;
+//    private PinyinComparator pinyinComparator;
+//    private CharacterParser characterParser;
+//    private List<SortModel> SourceDateList;
+//    private int listViewHeight;
 
     final String TITLE = "title";
     final String INFO = "info";
@@ -54,11 +54,14 @@ public class SongsListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
+        Log.v("yearsj", "fragment1-->onCreate()");
+
         LayoutInflater inflater = getActivity().getLayoutInflater();
         this.inflater = inflater;
-        view = inflater.inflate(R.layout.fragment_songs, (ViewGroup)getActivity().findViewById(R.id.viewpager), false);
+        view = inflater.inflate(R.layout.fragment_songs, (ViewGroup)getActivity().findViewById(R.id.viewpager), true);
         initial();
     }
+
 
 
     @Override
@@ -79,40 +82,39 @@ public class SongsListFragment extends Fragment {
         }
         int totalHeight = 0;
         for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
+            View listItem= listAdapter.getView(i, null, listView);
             listItem.measure(0, 0);
             totalHeight += listItem.getMeasuredHeight();
         }
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
-
-        listViewHeight=totalHeight;
+       // listViewHeight=getActivity().getWindowManager().getDefaultDisplay().getHeight()/2;
+      //  listViewHeight=totalHeight;
     }
 
     void initial() {
         list = (ListView) view.findViewById(R.id.songListView);
-        sideBar = (CharacterSideBarView) view.findViewById(R.id.sidrbar);
-        dialog = (TextView)view.findViewById(R.id.dialog);
-        characterParser = CharacterParser.getInstance();
-        pinyinComparator = new PinyinComparator();
+//        sideBar = (CharacterSideBarView) view.findViewById(R.id.sidebars);
+//        dialog = (TextView)view.findViewById(R.id.adialog);
+//        characterParser = CharacterParser.getInstance();
+//        pinyinComparator = new PinyinComparator();
 
         loadData();
         setListViewHeightBasedOnChildren(list);
-        sideBar.setTextView(dialog, listViewHeight);
         setOnListListener();
-
-        sideBar.setOnTouchingLetterChangedListener(new CharacterSideBarView.OnTouchingLetterChangedListener() {
-
-            @Override
-            public void onTouchingLetterChanged(String s) {
-                int position = adapter.getPositionForSection(s.charAt(0));
-                if (position != -1) {
-                    list.setSelection(position);
-                }
-
-            }
-        });
+//        sideBar.setTextView(dialog, listViewHeight);
+//        sideBar.setOnTouchingLetterChangedListener(new CharacterSideBarView.OnTouchingLetterChangedListener() {
+//
+//            @Override
+//            public void onTouchingLetterChanged(String s) {
+//                int position = adapter.getPositionForSection(s.charAt(0));
+//                if (position != -1) {
+//                    list.setSelection(position);
+//                }
+//
+//            }
+//        });
     }
 
     void loadData() {
@@ -136,7 +138,6 @@ public class SongsListFragment extends Fragment {
                 new int[]{R.id.titleView, R.id.infoView});
 
        list.setAdapter(songsAdapter);
-
 
     }
 
