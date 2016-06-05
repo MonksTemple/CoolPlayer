@@ -17,6 +17,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -38,14 +39,16 @@ public class SongsListFragment extends Fragment {
     private View view;
     LayoutInflater inflater;
 
- //   private SortAdapter adapter;
-//    private CharacterSideBarView sideBar;
-//    private TextView dialog;
+    private SortAdapter adapter;
+    private CharacterSideBarView sideBar;
+    private TextView dialog;
 
-//    private PinyinComparator pinyinComparator;
-//    private CharacterParser characterParser;
-//    private List<SortModel> SourceDateList;
-//    private int listViewHeight;
+    private PinyinComparator pinyinComparator;
+    private CharacterParser characterParser;
+    private List<SortModel> sourceDataList;
+    private int listViewHeight,oneListHight;
+    private List<String>  titles=new ArrayList<String>();
+
 
     final String TITLE = "title";
     final String INFO = "info";
@@ -58,21 +61,11 @@ public class SongsListFragment extends Fragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         this.inflater = inflater;
-        view = inflater.inflate(R.layout.fragment_songs, (ViewGroup)getActivity().findViewById(R.id.viewpager), true);
+        view = inflater.inflate(R.layout.fragment_songs, (ViewGroup)getActivity().findViewById(R.id.viewpager), false);
         initial();
     }
 
 
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        ViewGroup p = (ViewGroup) view.getParent();
-        if (p != null) {
-            p.removeAllViewsInLayout();
-        }
-        return view;
-    }
 
     private void setListViewHeightBasedOnChildren(ListView listView) {
         ListAdapter listAdapter = listView.getAdapter();
@@ -81,53 +74,84 @@ public class SongsListFragment extends Fragment {
             return;
         }
         int totalHeight = 0;
+
         for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem= listAdapter.getView(i, null, listView);
+            View listItem = listAdapter.getView(i, null, listView);
             listItem.measure(0, 0);
             totalHeight += listItem.getMeasuredHeight();
         }
+//        if(listAdapter.getCount()!=0)
+//        oneListHight= listItem.getMeasuredHeight()+listView.getDividerHeight();
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
-       // listViewHeight=getActivity().getWindowManager().getDefaultDisplay().getHeight()/2;
-      //  listViewHeight=totalHeight;
+        listViewHeight=getActivity().getWindowManager().getDefaultDisplay().getHeight()/3*2;
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        Log.v("yearsj", "fragment1-->onCreateView()");
+
+        ViewGroup p = (ViewGroup) view.getParent();
+        if (p != null) {
+            p.removeAllViewsInLayout();
+            Log.v("yearsj", "fragment1-->移除已存在的View");
+        }
+
+        return view;
     }
 
     void initial() {
         list = (ListView) view.findViewById(R.id.songListView);
-//        sideBar = (CharacterSideBarView) view.findViewById(R.id.sidebars);
-//        dialog = (TextView)view.findViewById(R.id.adialog);
-//        characterParser = CharacterParser.getInstance();
-//        pinyinComparator = new PinyinComparator();
+        sideBar = (CharacterSideBarView) view.findViewById(R.id.sidebars);
+        dialog = (TextView)view.findViewById(R.id.adialog);
+        characterParser = CharacterParser.getInstance();
+        pinyinComparator = new PinyinComparator();
 
         loadData();
         setListViewHeightBasedOnChildren(list);
         setOnListListener();
-//        sideBar.setTextView(dialog, listViewHeight);
-//        sideBar.setOnTouchingLetterChangedListener(new CharacterSideBarView.OnTouchingLetterChangedListener() {
-//
-//            @Override
-//            public void onTouchingLetterChanged(String s) {
-//                int position = adapter.getPositionForSection(s.charAt(0));
-//                if (position != -1) {
-//                    list.setSelection(position);
-//                }
-//
-//            }
-//        });
+
+        sideBar.setTextView(dialog, listViewHeight);
+        sideBar.setOnTouchingLetterChangedListener(new CharacterSideBarView.OnTouchingLetterChangedListener() {
+
+            @Override
+            public void onTouchingLetterChanged(String s) {
+                final int position = adapter.getPositionForSection(s.charAt(0));
+                System.out.println("position================"+position);
+                Log.i("position",position+"");
+                if (position != -1) {
+                    list.requestFocus();
+                    list.setItemChecked(position, true);
+                    list.setSelectionFromTop(position,oneListHight);
+                    list.smoothScrollToPosition(position);
+
+                }
+
+            }
+        });
     }
 
     void loadData() {
-        ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
-        HashMap<String, String> map;
-        for (int i = 0; i < 5; i++) {
-            map = new HashMap<String, String>();
-            map.put(TITLE, "陈奕迅");
+        ArrayList<HashMap<String, Object>> mylist = new ArrayList<HashMap<String, Object>>();
+        HashMap<String, Object> map;
+        char aChar='a';
+
+        for (int i = 0; i < 10; i++) {
+            map = new HashMap<String, Object>();
+            aChar=(char)(aChar + 1);
+            String title=aChar+"陈奕迅";
+            map.put(TITLE, title);
             map.put(INFO, "好久不见·认了吧");
+            titles.add(title);
             mylist.add(map);
         }
 
-        SimpleAdapter songsAdapter = new SimpleAdapter(view.getContext(),
+        sourceDataList = filledData(titles);
+        Collections.sort(sourceDataList, pinyinComparator);
+        adapter = new SortAdapter(view.getContext(),
                 mylist,
                 R.layout.two_item_list,
 
@@ -135,9 +159,23 @@ public class SongsListFragment extends Fragment {
                 new String[]{ TITLE, INFO},
 
 
-                new int[]{R.id.titleView, R.id.infoView});
+                new int[]{ R.id.titleView, R.id.infoView},sourceDataList);
 
-       list.setAdapter(songsAdapter);
+        adapter.setViewBinder(new SimpleAdapter.ViewBinder() {
+            @Override
+            public boolean setViewValue(View view, Object data,
+                                        String textRepresentation) {
+                if (view instanceof ImageView && data instanceof Drawable) {
+                    ImageView iv = (ImageView) view;
+                    iv.setImageDrawable((Drawable) data);
+                    return true;
+                }
+                return false;
+            }
+        });
+
+     //   list.setAdapter(singerAdapter);
+     list.setAdapter(adapter);
 
     }
 
@@ -153,10 +191,32 @@ public class SongsListFragment extends Fragment {
                                     int position, long id) {
                 // TODO 自动生成的方法存根
 
-//                System.out.println(id);
+
             }
 
         });
 
     }
+
+
+    private List<SortModel> filledData(List<String> data) {
+        List<SortModel> mSortList = new ArrayList<SortModel>();
+
+        for (int i = 0; i < data.size(); i++) {
+            SortModel sortModel = new SortModel();
+            sortModel.setName(data.get(i));
+
+            String pinyin = characterParser.getSelling(data.get(i));
+            String sortString = pinyin.substring(0, 1).toUpperCase();
+
+            if (sortString.matches("[A-Z]")) {
+                sortModel.setSortLetters(sortString.toUpperCase());
+            } else {
+                sortModel.setSortLetters("#");
+            }
+            mSortList.add(sortModel);
+        }
+        return mSortList;
+    }
 }
+

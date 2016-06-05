@@ -11,6 +11,6 @@
     <color name="black">#000000</color>
     <color name="tableLine">#dddddd</color>
     <color name="menuLine">#20000000</color>
-    <color name="mainBackground">#F8F8F8</color>
+    <color name="mainBackground">#dddddd</color>
     <color name="theme">#9ACD32</color>
 </resources>

@@ -1,6 +1,7 @@
 package yearsj.com.coolplayer.adapter;
 
 import java.util.List;
+import java.util.Map;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,20 +9,34 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.SectionIndexer;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import yearsj.com.coolplayer.R;
 import yearsj.com.coolplayer.model.SortModel;
 
 
-public class SortAdapter extends BaseAdapter implements SectionIndexer {
+public class SortAdapter extends SimpleAdapter implements SectionIndexer {
 	private List<SortModel> list = null;
+	private List<Map<String,String>> data;
 	private Context mContext;
 
-	public SortAdapter(Context mContext, List<SortModel> list) {
-		this.mContext = mContext;
-		this.list = list;
+	final String TITLE = "title";
+	final String INFO = "info";
+
+
+//	public SortAdapter(Context mContext, List<SortModel> list) {
+//		this.mContext = mContext;
+//		this.list = list;
+//	}
+
+	public SortAdapter(Context context, List<? extends Map<String, ?>> data, int resource, String[] from, int[] to,List<SortModel> list) {
+		super(context, data, resource, from, to);
+		this.list=list;
+		this.mContext=context;
+		this.data=( List<Map<String,String>>)data;
 	}
+
 
 	/**
 	 * 
@@ -32,27 +47,18 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer {
 		notifyDataSetChanged();
 	}
 
-	public int getCount() {
-		return this.list.size();
-	}
-
-	public Object getItem(int position) {
-		return list.get(position);
-	}
-
-	public long getItemId(int position) {
-		return position;
-	}
 
 	public View getView(final int position, View view, ViewGroup arg2) {
 		ViewHolder viewHolder = null;
 		final SortModel mContent = list.get(position);
+		Map indexMap=data.get(position);
 		if (view == null) {
 			viewHolder = new ViewHolder();
 			view = LayoutInflater.from(mContext).inflate(
 					R.layout.two_item_list, null);
 			viewHolder.tvTitle = (TextView) view.findViewById(R.id.titleView);
-			viewHolder.tvLetter = (TextView) view.findViewById(R.id.infoView);
+			viewHolder.tvLetter = (TextView) view.findViewById(R.id.catalog);
+			viewHolder.tvInfo=(TextView)view.findViewById(R.id.infoView);
 			view.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) view.getTag();
@@ -60,16 +66,15 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer {
 
 		int section = getSectionForPosition(position);
 
-
 		if (position == getPositionForSection(section)) {
-			viewHolder.tvLetter.setVisibility(View.VISIBLE);
+			viewHolder.tvLetter.setVisibility(View.GONE);
 			viewHolder.tvLetter.setText(mContent.getSortLetters());
 		} else {
 			viewHolder.tvLetter.setVisibility(View.GONE);
 		}
 
-		viewHolder.tvTitle.setText(this.list.get(position).getName());
-
+		viewHolder.tvTitle.setText(indexMap.get(TITLE).toString());
+		viewHolder.tvInfo.setText(indexMap.get(INFO).toString());
 		return view;
 
 	}
@@ -77,6 +82,7 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer {
 	final static class ViewHolder {
 		TextView tvLetter;
 		TextView tvTitle;
+		TextView tvInfo;
 	}
 
 
@@ -93,7 +99,6 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer {
 				return i;
 			}
 		}
-
 		return -1;
 	}
 

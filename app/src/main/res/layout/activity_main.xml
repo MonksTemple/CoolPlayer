@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -46,7 +46,7 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
         android:layout_below="@id/divide"
-        android:background="@color/tableLine"
+        android:background="@color/mainBackground"
         android:layout_width="fill_parent"
         android:layout_gravity="center"
         android:layout_height="wrap_content" >
@@ -60,13 +60,18 @@
     </android.support.v4.view.ViewPager>
 </RelativeLayout>
 
-    <fragment
-        android:id="@+id/id_fragment_playing"
-        android:name="yearsj.com.coolplayer.ui.PlayingFragment"
+
+    <LinearLayout
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
         android:layout_width="fill_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="wrap_content">
+        <fragment
+            android:id="@+id/id_fragment_playing"
+            android:name="yearsj.com.coolplayer.ui.PlayingFragment"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
 
-
-</RelativeLayout>
+</FrameLayout>

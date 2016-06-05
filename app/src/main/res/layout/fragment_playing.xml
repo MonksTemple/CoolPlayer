@@ -68,8 +68,8 @@
         <ImageView
             android:id="@+id/playMusic"
             style="@style/picButtonStyle"
-            android:layout_height="20pt"
-            android:layout_width="20pt"
+            android:layout_height="15pt"
+            android:layout_width="15pt"
             android:layout_alignRight="@id/playList"
             android:layout_marginRight="20pt"
             android:src="@drawable/play_music" />

@@ -25,7 +25,7 @@
             android:textStyle="bold" />
 
         <ImageView
-            style="@style/picStyle"
+            style="@style/picButtonStyle"
             android:id="@id/menu"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="5pt"

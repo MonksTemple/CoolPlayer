@@ -57,7 +57,7 @@ public class CharacterSideBarView extends View {
 
 		for (int i = 0; i < b.length; i++) {
 			//paint.setColor(rgb(33, 65, 98));
-			paint.setColor(Color.BLACK);
+			paint.setColor(Color.GRAY);
 			paint.setAntiAlias(true);
 			paint.setTextSize(35);
 			// 选中的状态

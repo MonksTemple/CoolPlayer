@@ -34,8 +34,8 @@
     </style>
 
     <style name="picButtonStyle">
-        <item name="android:layout_width">15pt</item>
-        <item name="android:layout_height">15pt</item>
+        <item name="android:layout_width">13pt</item>
+        <item name="android:layout_height">13pt</item>
         <item name="android:layout_marginRight">20dp</item>
         <item name="android:layout_centerVertical">true</item>
     </style>
